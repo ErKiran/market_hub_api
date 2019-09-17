@@ -7,9 +7,9 @@ const nodemailer = require('nodemailer');
 const SendGridTransport = require('nodemailer-sendgrid-transport');
 
 
-const User = require('../../models/user');
-const VerifyMe = require('../../models/tokenverification');
-const { validateUserInfo } = require('../../validations/user');
+const User = require('../models/user');
+const VerifyMe = require('../models/tokenverification');
+const { validateUserInfo } = require('../validations/user');
 
 const transporter = nodemailer.createTransport(SendGridTransport({
     auth: {
