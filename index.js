@@ -22,6 +22,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/auth', auth)
 
+app.use('/', async (req, res) => {
+    res.json({ msg: 'That worked' })
+})
+
 const port = process.env.PORT || 5000;
 
 app.listen(port);
