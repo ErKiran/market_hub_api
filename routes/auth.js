@@ -57,7 +57,7 @@ router.post('/register', async (req, res) => {
                         subject: 'Welcome to Konsult! Confirm Your Email',
                         html: `<h1>You Sucessfully Signed Up! 
                     Click this link to activate your account 
-                    <a href ="${req.header('host')}/api/user/activate-email/${token_dum.token}">Link</a>`
+                    <a href ="${req.header('host')}/auth/api/user/activate-email/${token_dum.token}">Link</a>`
                     });
                     if (mail.message === 'success') {
                         res.json({
@@ -120,7 +120,7 @@ router.post('/forget-password', async (req, res) => {
         subject: 'Forget password',
         html: `<h1>You are receiving this mail because you have ask for password Reset! 
     Click this link to reset your account password 
-    <a href ="${req.header('host')}/api/user/reset-password/:${token_dum.token}">Link</a>
+    <a href ="${req.header('host')}/auth/api/user/reset-password/:${token_dum.token}">Link</a>
     <p>Click this  to set a new password</p></h1>`
     });
     await User.updateOne({ email: req.body.email }, { $set: { passwordResetToken: true } })
