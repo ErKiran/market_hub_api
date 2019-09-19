@@ -53,8 +53,8 @@ router.post('/register', async (req, res) => {
                 if (result) {
                     const mail = await transporter.sendMail({
                         to: req.body.email,
-                        from: 'noreply@pteacher.com',
-                        subject: 'Welcome to Peatcher! Confirm Your Email',
+                        from: 'admin@konsult101.com',
+                        subject: 'Welcome to Konsult! Confirm Your Email',
                         html: `<h1>You Sucessfully Signed Up! 
                     Click this link to activate your account 
                     <a href ="${req.header('host')}/api/user/activate-email/${token_dum.token}">Link</a>`
@@ -89,7 +89,8 @@ router.get('/api/user/activate-email/:token', async (req, res, next) => {
     if (user === null) {
         res.json('The user and token are not associated');
     }
-    const update = await User.updateOne({ _id: test_token[0]._userId, }, { $set: { isactive: true } })
+    const update = await User.updateOne({ _id: test_token[0]._userId, }, { $set: { isactive: true } });
+    console.log(update)
     if (update) {
         res.redirect('http://testing.konsult101.com/login', 301)
         next();
@@ -118,7 +119,7 @@ router.post('/forget-password', async (req, res) => {
         subject: 'Forget password',
         html: `<h1>You are receiving this mail because you have ask for password Reset! 
     Click this link to reset your account password 
-    <a href ="http://localhost:5000/api/user/reset-password/:${token_dum.token}">Link</a>
+    <a href ="${req.header('host')}/api/user/reset-password/:${token_dum.token}">Link</a>
     <p>Click this  to set a new password</p></h1>`
     });
     await User.updateOne({ email: req.body.email }, { $set: { passwordResetToken: true } })
