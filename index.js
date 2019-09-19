@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport')
 const app = express();
 const auth = require('./routes/auth');
+const cors = require('cors')
 
 process.setMaxListeners(0);
 mongoose.set('useCreateIndex', true);
@@ -14,6 +15,7 @@ mongoose
     .catch(err => console.log(err));
 
 require('./utils/passportHelper')(passport)
+app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session())
 app.use(express.json())

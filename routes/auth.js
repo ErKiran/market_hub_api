@@ -35,6 +35,7 @@ router.post('/register', async (req, res) => {
                 name: req.body.name,
                 email: req.body.email,
                 password: req.body.password,
+                role: req.body.role,
                 'admin.is_admin': req.body.isadmin,
                 'admin.is_techinical': req.body.istechinical
             })
@@ -111,7 +112,7 @@ router.post('/forget-password', async (req, res) => {
     });
 
     const token_dum = await token.save();
-    const mail = await transporter.sendMail({
+    await transporter.sendMail({
         to: req.body.email,
         from: 'noreply@pteacher.com',
         subject: 'Forget password',
@@ -120,7 +121,6 @@ router.post('/forget-password', async (req, res) => {
     <a href ="http://localhost:5000/api/user/reset-password/:${token_dum.token}">Link</a>
     <p>Click this  to set a new password</p></h1>`
     });
-    console.log(mail)
     await User.updateOne({ email: req.body.email }, { $set: { passwordResetToken: true } })
     res.json(user)
     //send-mail to user with token 
