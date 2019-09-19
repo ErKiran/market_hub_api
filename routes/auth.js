@@ -82,6 +82,7 @@ router.post('/register', async (req, res) => {
 
 router.get('/api/user/activate-email/:token', async (req, res, next) => {
     const test_token = await VerifyMe.find({ token: req.params.token });
+    console.log(test_token)
     if (test_token === null) {
         res.json('We are unable to find User by this token');
     }
