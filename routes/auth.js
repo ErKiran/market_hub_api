@@ -152,7 +152,7 @@ router.post('/login', async (req, res) => {
             const test = await bcrypt.compare(req.body.password, user[0].password);
             if (user[0].isactive === true) {
                 if (test === true) {
-                    const payload = { id: user[0].id, name: user[0].name, isadmin: user[0].admin.isadmin, istechinical: user[0].admin.istechinical };
+                    const payload = { id: user[0].id, name: user[0].name, role: user[0].role, isadmin: user[0].admin.isadmin, istechinical: user[0].admin.istechinical };
                     const token = jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 });
                     const role = user[0].role
                     res.json({
