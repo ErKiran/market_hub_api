@@ -36,8 +36,8 @@ module.exports =
                 errors.password = 'Password must be at least 8 characters and less than 30 characters';
             }
 
-            if (!Validator.isLength(data.name, { min: 6, max: 30 })) {
-                errors.name = 'Name must be at least 6 characters';
+            if (!Validator.isLength(data.name, { min: 4, max: 30 })) {
+                errors.name = 'Name must be at least 4 characters';
             }
 
             if (Validator.isAlphanumeric(data.password)) {
