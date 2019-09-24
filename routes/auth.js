@@ -82,7 +82,6 @@ router.post('/register', async (req, res) => {
 
 router.get('/api/user/activate-email/:token', async (req, res, next) => {
     const test_token = await VerifyMe.find({ token: req.params.token });
-    console.log(test_token)
     if (test_token === null) {
         res.json('We are unable to find User by this token');
     }
@@ -91,7 +90,6 @@ router.get('/api/user/activate-email/:token', async (req, res, next) => {
         res.json('The user and token are not associated');
     }
     const update = await User.updateOne({ _id: test_token[0]._userId, }, { $set: { isactive: true } });
-    console.log(update)
     if (update) {
         res.redirect('http://testing.konsult101.com/login', 301)
         next();
@@ -116,11 +114,11 @@ router.post('/forget-password', async (req, res) => {
     const token_dum = await token.save();
     await transporter.sendMail({
         to: req.body.email,
-        from: 'noreply@pteacher.com',
+        from: 'admin@konsult101.com',
         subject: 'Forget password',
         html: `<h1>You are receiving this mail because you have ask for password Reset! 
     Click this link to reset your account password 
-    <a href ="${req.header('host')}/auth/api/user/reset-password/:${token_dum.token}">Link</a>
+    <a href ="${req.header('host')}/auth/api/user/reset-password/${token_dum.token}">Link</a>
     <p>Click this  to set a new password</p></h1>`
     });
     await User.updateOne({ email: req.body.email }, { $set: { passwordResetToken: true } })

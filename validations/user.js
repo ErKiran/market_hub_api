@@ -9,9 +9,13 @@ module.exports =
             data.email = !isEmpty(data.email) ? data.email : '';
             data.password = !isEmpty(data.password) ? data.password : '';
             data.password2 = !isEmpty(data.password2) ? data.password2 : '';
+            data.role = !isEmpty(data.role) ? data.role : '';
 
             if (Validator.isEmpty(data.email)) {
                 errors.email = 'Email field is required';
+            }
+            if (Validator.isEmpty(data.role)) {
+                errors.userRole = 'At Least one role must be Selected'
             }
             if (Validator.isEmpty(data.name)) {
                 errors.name = 'Name field is required';
