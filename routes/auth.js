@@ -154,11 +154,11 @@ router.post('/login', async (req, res) => {
                 if (test === true) {
                     const payload = { id: user[0].id, name: user[0].name, isadmin: user[0].admin.isadmin, istechinical: user[0].admin.istechinical };
                     const token = jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 });
-                    const details = user
+                    const role = user.role
                     res.json({
                         sucess: "true",
                         token: `${token}`,
-                        details
+                        role: role
                     })
                 }
                 else {
