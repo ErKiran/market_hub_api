@@ -154,7 +154,7 @@ router.post('/login', async (req, res) => {
                 if (test === true) {
                     const payload = { id: user[0].id, name: user[0].name, isadmin: user[0].admin.isadmin, istechinical: user[0].admin.istechinical };
                     const token = jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 });
-                    const role = user.role
+                    const role = user[0].role
                     res.json({
                         sucess: "true",
                         token: `${token}`,
