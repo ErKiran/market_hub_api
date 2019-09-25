@@ -11,9 +11,8 @@ module.exports =
             data.confirmPass = !isEmpty(data.confirmPass) ? data.confirmPass : '';
             data.currentPass = !isEmpty(data.currentPass) ? data.currentPass : '';
 
-
-            const user = await User.find({ email: req.body.email });
-            const checkPassword = await bcrypt.compare(req.body.currentPass, user[0].password);
+            const user = await User.find({ email: data.email });
+            const checkPassword = await bcrypt.compare(data.currentPass, user[0].password);
             if (checkPassword === false) {
                 errors.currentPass = 'Check your password'
             }
