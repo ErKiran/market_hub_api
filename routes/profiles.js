@@ -41,6 +41,15 @@ router.patch('/edit_seeker', passport.authenticate('jwt', { session: false }), a
     catch (e) {
         throw e
     }
+})
 
+router.get('/get_seeker', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const getData = await SeekerProfile.find({ _userId: req.user.id });
+        res.json(getData)
+    }
+    catch (e) {
+        throw e
+    }
 })
 module.exports = router
