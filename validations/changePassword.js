@@ -11,11 +11,6 @@ module.exports =
             data.confirmPass = !isEmpty(data.confirmPass) ? data.confirmPass : '';
             data.currentPass = !isEmpty(data.currentPass) ? data.currentPass : '';
 
-            const user = await User.find({ email: data.email });
-            const checkPassword = await bcrypt.compare(data.currentPass, user[0].password);
-            if (checkPassword === false) {
-                errors.currentPass = 'Check your password'
-            }
             if (Validator.isEmpty(data.newPass)) {
                 errors.newPass = 'New Password field is required';
             }

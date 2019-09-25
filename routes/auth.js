@@ -177,11 +177,14 @@ router.post('/login', async (req, res) => {
 
 router.post('/change_password', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
+        console.log(req.body)
         const { errors, isValid } = validateChangePassword(req.body);
+        console.log(isValid, errors)
         if (!isValid) {
             return res.status(400).json(errors);
         }
         const user = await User.find({ email: req.body.email });
+        console.log(user)
         const checkPassword = await bcrypt.compare(req.body.currentPass, user[0].password)
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(req.body.newPass, salt);
