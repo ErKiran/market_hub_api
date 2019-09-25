@@ -10,6 +10,7 @@ const SendGridTransport = require('nodemailer-sendgrid-transport');
 const User = require('../models/user');
 const VerifyMe = require('../models/tokenverification');
 const { validateUserInfo } = require('../validations/user');
+const { validateChangePassword } = require('../validations/changePassword');
 
 const transporter = nodemailer.createTransport(SendGridTransport({
     auth: {
@@ -171,6 +172,27 @@ router.post('/login', async (req, res) => {
     }
     catch (e) {
         console.warn(e)
+    }
+})
+
+router.post('/change_password', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const { errors, isValid } = validateChangePassword(req.body);
+        if (!isValid) {
+            return res.status(400).json(errors);
+        }
+        const user = await User.find({ email: req.body.email });
+        const checkPassword = await bcrypt.compare(req.body.oldPass, user[0].password)
+        const salt = await bcrypt.genSalt(10);
+        const hash = await bcrypt.hash(req.body.newPass, salt);
+        if (checkPassword) {
+            await User.updateOne({ email: req.body.email }, { $set: { password: hash } });
+        } else {
+            res.json({ error: 'Have you forgotten your password' });
+        }
+    }
+    catch (e) {
+        throw e
     }
 })
 
