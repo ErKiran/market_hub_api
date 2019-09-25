@@ -9,19 +9,19 @@ module.exports =
             let errors = {};
             data.newPass = !isEmpty(data.newPass) ? data.newPass : '';
             data.confirmPass = !isEmpty(data.confirmPass) ? data.confirmPass : '';
-            data.oldPass = !isEmpty(data.oldPass) ? data.oldPass : '';
+            data.currentPass = !isEmpty(data.currentPass) ? data.currentPass : '';
 
 
             const user = await User.find({ email: req.body.email });
-            const checkPassword = await bcrypt.compare(req.body.oldPass, user[0].password);
+            const checkPassword = await bcrypt.compare(req.body.currentPass, user[0].password);
             if (checkPassword === false) {
-                errors.oldPass = 'Check your password'
+                errors.currentPass = 'Check your password'
             }
             if (Validator.isEmpty(data.newPass)) {
                 errors.newPass = 'New Password field is required';
             }
-            if (Validator.isEmpty(data.oldPass)) {
-                errors.oldPass = 'Old Password Field is required'
+            if (Validator.isEmpty(data.currentPass)) {
+                errors.currentPass = 'Old Password Field is required'
             }
             if (Validator.isEmpty(data.confirmPass)) {
                 errors.confirmPass = 'Confirm Password field is required';
@@ -39,7 +39,7 @@ module.exports =
                 errors.confirmPass = `Password doesn't match`
             }
 
-            if (data.newPass === data.oldPass) {
+            if (data.newPass === data.currentPass) {
                 errors.identical = 'New Password is identical to Old password'
             }
             return {
