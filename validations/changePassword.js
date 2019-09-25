@@ -1,14 +1,22 @@
 const Validator = require('validator');
 const isEmpty = require('./is-empty');
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
 module.exports =
     {
-        validateChangePassword: function validateChangePassword(data) {
+        validateChangePassword: async function validateChangePassword(data) {
             let errors = {};
             data.newPass = !isEmpty(data.newPass) ? data.newPass : '';
             data.confirmPass = !isEmpty(data.confirmPass) ? data.confirmPass : '';
             data.oldPass = !isEmpty(data.oldPass) ? data.oldPass : '';
 
+
+            const user = await User.find({ email: req.body.email });
+            const checkPassword = await bcrypt.compare(req.body.oldPass, user[0].password);
+            if (checkPassword === false) {
+                errors.oldPass = 'Check your password'
+            }
             if (Validator.isEmpty(data.newPass)) {
                 errors.newPass = 'New Password field is required';
             }
