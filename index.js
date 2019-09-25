@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const passport = require('passport')
 const app = express();
 const auth = require('./routes/auth');
+const profile = require('./routes/profiles');
 const cors = require('cors')
 
 process.setMaxListeners(0);
@@ -21,6 +22,7 @@ app.use(passport.session())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use('/auth', auth)
+app.use('/profile', profile)
 
 app.use('/', async (req, res) => {
     res.json({ msg: 'That worked' })
