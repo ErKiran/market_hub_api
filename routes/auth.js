@@ -182,7 +182,7 @@ router.post('/change_password', passport.authenticate('jwt', { session: false })
             return res.status(400).json(errors);
         }
         const user = await User.find({ email: req.body.email });
-        const checkPassword = await bcrypt.compare(req.body.oldPass, user[0].password)
+        const checkPassword = await bcrypt.compare(req.body.currentPass, user[0].password)
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(req.body.newPass, salt);
         if (checkPassword) {
