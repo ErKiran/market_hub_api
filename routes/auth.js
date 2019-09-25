@@ -158,7 +158,7 @@ router.post('/login', async (req, res) => {
                     const role = user[0].role
                     res.json({
                         sucess: "true",
-                        token: `${token}`,
+                        token: `bearer ${token}`,
                         role: role
                     })
                 }
