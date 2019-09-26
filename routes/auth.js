@@ -11,6 +11,7 @@ const User = require('../models/user');
 const VerifyMe = require('../models/tokenverification');
 const { validateUserInfo } = require('../validations/user');
 const { validateChangePassword } = require('../validations/changePassword');
+const { validateLoginInfo } = require('../validations/login')
 
 const transporter = nodemailer.createTransport(SendGridTransport({
     auth: {
@@ -145,6 +146,10 @@ router.post('/user/reset-password/:token', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
+        const { errors, isValid } = validateLoginInfo(req.body);
+        if (!isValid) {
+            return res.status(400).json(errors);
+        }
         const user = await User.find({ email: req.body.email });
         if (user === null || user.length === 0) {
             res.status(404).json('Please Check the credentials')
